@@ -1,5 +1,8 @@
 package org.launchcode.techjobs.console;
 
+import org.w3c.dom.ranges.Range;
+
+import java.awt.font.NumericShaper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -38,7 +41,10 @@ public class TechJobs {
                 String columnChoice = getUserSelection("List", columnChoices);
 
                 if (columnChoice.equals("all")) {
-                    printJobs(JobData.findAll());
+                   // ArrayList<String> results = JobData.findAll(columnChoice); //possibly build the result here
+
+                    //System.out.println("\n*** All " + columnChoices.(columnChoice) + " Values ***");
+                   printJobs(JobData.findAll()); //Here it should route and then print all. We can pass the selection here to the print jobs1
                 } else {
 
                     ArrayList<String> results = JobData.findAll(columnChoice);
@@ -110,7 +116,26 @@ public class TechJobs {
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+        //grab and return the list of items
+        //for i in JobData:
+            //with the set key-value pairs. Need to select the columns
+            ArrayList<String> skill = JobData.findAll("core competency");
+            ArrayList<String> employer = JobData.findAll("employer");
+            ArrayList<String> location = JobData.findAll("location");
+            ArrayList<String> positionType = JobData.findAll("position type");
+            ArrayList<String> name = JobData.findAll("name");
+            Integer hello = name.size();
+            for(int i = 0; i < name.size(); i++)
+            {
 
-        System.out.println("printJobs is not implemented yet");
+                System.out.println("*****");
+                System.out.println("name: " + name.get(i));
+                System.out.println("position type: " + positionType.get(i));
+                System.out.println("employer: " + employer.get(i));
+                System.out.println("location: " + location.get(i) );
+                System.out.println("core competency: " + skill.get(i));
+
+
+            }
     }
 }
