@@ -124,13 +124,29 @@ public class TechJobs {
             ArrayList<String> location = JobData.findAll("location");
             ArrayList<String> positionType = JobData.findAll("position type");
             ArrayList<String> name = JobData.findAll("name");
-            Integer hello = name.size();
-            for(int i = 0; i < name.size(); i++)
+
+            for(int i = 0; i < positionType.size(); i++)
             {
 
                 System.out.println("*****");
-                System.out.println("name: " + name.get(i));
+                if (positionType.get(i).equals(false)) {
+                    positionType.add("NA");
+                }
+
+                if (name.get(i).equals(false)) {
+                    name.add("NA");
+                }
+                if (employer.get(i).equals(false)) {
+                    employer.add("NA");
+                }
+                if (!location.get(i).equals(true)) {
+                    location.add("NA");
+                }
+                if (skill.get(i).equals(false)) {
+                    skill.add("NA");
+                }
                 System.out.println("position type: " + positionType.get(i));
+                System.out.println("name: " + name.get(i));
                 System.out.println("employer: " + employer.get(i));
                 System.out.println("location: " + location.get(i) );
                 System.out.println("core competency: " + skill.get(i));
