@@ -1,11 +1,9 @@
 package org.launchcode.techjobs.console;
 
-import org.w3c.dom.ranges.Range;
+import java.lang.reflect.Array;
+import java.util.*;
 
-import java.awt.font.NumericShaper;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import static javax.swing.UIManager.get;
 
 /**
  * Created by LaunchCode
@@ -14,7 +12,7 @@ public class TechJobs {
 
     private static Scanner in = new Scanner(System.in);
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         // Initialize our field map with key/name pairs
         HashMap<String, String> columnChoices = new HashMap<>();
@@ -41,10 +39,7 @@ public class TechJobs {
                 String columnChoice = getUserSelection("List", columnChoices);
 
                 if (columnChoice.equals("all")) {
-                   // ArrayList<String> results = JobData.findAll(columnChoice); //possibly build the result here
-
-                    //System.out.println("\n*** All " + columnChoices.(columnChoice) + " Values ***");
-                   printJobs(JobData.findAll()); //Here it should route and then print all. We can pass the selection here to the print jobs1
+                    printJobs(JobData.findAll());
                 } else {
 
                     ArrayList<String> results = JobData.findAll(columnChoice);
@@ -65,11 +60,14 @@ public class TechJobs {
                 // What is their search term?
                 System.out.println("\nSearch term: ");
                 String searchTerm = in.nextLine();
+                String aValue = searchTerm;
 
                 if (searchField.equals("all")) {
-                    System.out.println("Search all fields not yet implemented.");
+                    printJobs(JobData.findByValue(aValue));
+                    //System.out.println("Search all fields not yet implemented.");
                 } else {
-                    printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
+                    // System.out.println("Search term invalid. Printing All");
+                    printJobs(JobData.findByColumnAndValue(searchField, aValue));
                 }
             }
         }
@@ -109,49 +107,23 @@ public class TechJobs {
                 validChoice = true;
             }
 
-        } while(!validChoice);
+        } while (!validChoice);
 
         return choiceKeys[choiceIdx];
     }
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
-        //grab and return the list of items
-        //for i in JobData:
-            //with the set key-value pairs. Need to select the columns
-            ArrayList<String> skill = JobData.findAll("core competency");
-            ArrayList<String> employer = JobData.findAll("employer");
-            ArrayList<String> location = JobData.findAll("location");
-            ArrayList<String> positionType = JobData.findAll("position type");
-            ArrayList<String> name = JobData.findAll("name");
+        if (someJobs.size() == 0) {
+            System.out.println("No results found");
+        }
 
-            for(int i = 0; i < positionType.size(); i++)
-            {
-
-                System.out.println("*****");
-                if (positionType.get(i).equals(false)) {
-                    positionType.add("NA");
-                }
-
-                if (name.get(i).equals(false)) {
-                    name.add("NA");
-                }
-                if (employer.get(i).equals(false)) {
-                    employer.add("NA");
-                }
-                if (!location.get(i).equals(true)) {
-                    location.add("NA");
-                }
-                if (skill.get(i).equals(false)) {
-                    skill.add("NA");
-                }
-                System.out.println("position type: " + positionType.get(i));
-                System.out.println("name: " + name.get(i));
-                System.out.println("employer: " + employer.get(i));
-                System.out.println("location: " + location.get(i) );
-                System.out.println("core competency: " + skill.get(i));
-
-
+        for (HashMap<String, String> job : someJobs) {
+            System.out.println("*****");
+            for (Map.Entry<String, String> someJob : job.entrySet()) {
+                System.out.println(someJob.getKey() + ": " + someJob.getValue());
             }
+            //System.out.println("*****");
+        }
     }
 }

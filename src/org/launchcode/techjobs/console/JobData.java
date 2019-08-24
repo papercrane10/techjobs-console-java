@@ -7,9 +7,8 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -50,19 +49,18 @@ public class JobData {
 
         // load data, if not already loaded
         loadData();
-
         return allJobs;
     }
 
     /**
      * Returns results of search the jobs data by key/value, using
      * inclusion of the search term.
-     *
+     * <p>
      * For example, searching for employer "Enterprise" will include results
      * with "Enterprise Holdings, Inc".
      *
-     * @param column   Column that should be searched.
-     * @param value Value of teh field to search for
+     * @param column Column that should be searched.
+     * @param value  Value of teh field to search for
      * @return List of all jobs matching the criteria
      */
     public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String value) {
@@ -75,10 +73,18 @@ public class JobData {
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
+            if (aValue.equalsIgnoreCase(value)){
+                if (aValue.contains(value)) {
+                    jobs.add(row);
 
-            if (aValue.contains(value)) {
-                jobs.add(row);
-            }
+                }
+                else{
+                    if (aValue.toUpperCase().equals(value.toUpperCase())){
+                        jobs.add(row);
+                    }
+                }
+
+                }
         }
 
         return jobs;
@@ -125,4 +131,27 @@ public class JobData {
         }
     }
 
+    public static ArrayList<HashMap<String, String>> findByValue(String searchTerm) {
+        loadData();
+
+
+        ArrayList<HashMap<String, String>> helloJobs = new ArrayList<>();
+        String aValue = searchTerm.toUpperCase();
+        for (HashMap<String, String> job : allJobs) {
+            for (Map.Entry<String, String> someJob : job.entrySet()) {
+
+                if (someJob.getValue().toUpperCase().contains(aValue)) {
+
+                    helloJobs.add(job);
+                }
+
+            }
+
+
+
+        }
+    return helloJobs;
+    }
 }
+
+
